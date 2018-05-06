@@ -88,8 +88,8 @@ function PreviewAreaBuilder:createGui(parentElement)
         surface_index = self.previewArea.surface.index,
         zoom = 0.5
     }
-    self.previewArea.camera.style.minimal_width = 50
-    self.previewArea.camera.style.minimal_height = 300
+    self.previewArea.camera.style.minimal_width = 75
+    self.previewArea.camera.style.minimal_height = 400
 end
 
 function PreviewAreaBuilder.new(previewArea, playerName)
