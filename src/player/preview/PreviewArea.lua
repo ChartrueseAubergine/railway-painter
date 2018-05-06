@@ -4,6 +4,7 @@ local PreviewAreaBuilder = require("src/player/preview/PreviewAreaBuilder")
 local PreviewArea = {}
 
 function PreviewArea:newRule()
+    self.builder:addBaseEntities()
     self:addLocomotive()
     self:removeWagons()
     self:updateColor()
@@ -11,6 +12,7 @@ function PreviewArea:newRule()
 end
 
 function PreviewArea:loadRule(rule)
+    self.builder:addBaseEntities()
     if rule.trains then
         self:addLocomotive()
     else

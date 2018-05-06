@@ -7,10 +7,18 @@ function PreviewAreaBuilder:createPreviewArea()
         self.previewArea.surface = game.surfaces[surfaceName]
     else
         self.previewArea.surface = game.create_surface(surfaceName, {width = 2, height = 2})
-        self:setSurfaceFloorTransparent()
-        self:layRails()
     end
 
+    self:addBaseEntities()
+end
+
+function PreviewAreaBuilder:addBaseEntities()
+    self:setSurfaceFloorTransparent()
+    self:layRails()
+    self:addStation()
+end
+
+function PreviewAreaBuilder:addStation()
     local station = self.previewArea.surface.find_entity("train-stop", {-1, 9})
     if station then
         self.previewArea.trainStop = station
@@ -27,7 +35,11 @@ function PreviewAreaBuilder:createPreviewArea()
     end
 end
 
+
 function PreviewAreaBuilder:setSurfaceFloorTransparent()
+    local blank = self.previewArea.surface.find_entity("straight-rail", {-5, -15})
+    if blank then return end
+
     local blankTiles = {}
     for x = -5,5 do
         for y = -15,15 do
@@ -41,14 +53,17 @@ function PreviewAreaBuilder:setSurfaceFloorTransparent()
 end
 
 function PreviewAreaBuilder:layRails()
+    local rail = self.previewArea.surface.find_entity("straight-rail", {1, -13})
+    if rail then return end
+
     local failedToLayRail = false
-    for y = -14,10,2 do
+    for y = -13,11,2 do
         local rail = self.previewArea.surface.create_entity{
             name = "straight-rail",
-            position = {x = 0, y = y}
+            position = {x = 1, y = y}
         }
         if not rail then
-            log("Could not create straight-rail at location {0, " .. y .. "} in preview area")
+            log("Could not create straight-rail at location {" .. x .. ", " .. y .. "} in preview area")
             failedToLayRail = true
         end
     end
